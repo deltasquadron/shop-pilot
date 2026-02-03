@@ -4,6 +4,8 @@
   /* Light mode colors */
   --background: #f8fafc;
   --surface: #ffffff;
+  --surface-hover: #f1f5f9;
+  --text: #1e293b;
   --text-primary: #1e293b;
   --text-secondary: #64748b;
   --text-muted: #94a3b8;
@@ -26,6 +28,8 @@
     /* Dark mode colors */
     --background: #0f172a;
     --surface: #1e293b;
+    --surface-hover: #334155;
+    --text: #f1f5f9;
     --text-primary: #f1f5f9;
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
@@ -45,6 +49,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-text: var(--text);
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);

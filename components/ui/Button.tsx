@@ -5,7 +5,9 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   variant?: 'primary' | 'secondary' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
+  loadingText?: string;
   disabled?: boolean;
+  fullWidth?: boolean;
   icon?: React.ReactNode;
   className?: string;
 }
@@ -15,7 +17,9 @@ export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
   loading = false,
+  loadingText,
   disabled = false,
+  fullWidth = false,
   icon,
   className,
   ...props
@@ -23,9 +27,9 @@ export const Button: React.FC<ButtonProps> = ({
   const baseClasses = 'inline-flex items-center justify-center font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variantClasses = {
-    primary: 'bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 focus:ring-blue-500',
-    secondary: 'bg-white text-blue-600 hover:bg-gray-50 border border-gray-300 hover:border-blue-600 focus:ring-blue-500',
-    danger: 'bg-red-500 text-white hover:bg-red-600 active:bg-red-700 focus:ring-red-500',
+    primary: 'bg-primary text-white hover:bg-primary-hover active:bg-primary-active focus:ring-primary',
+    secondary: 'bg-surface text-primary hover:bg-background border border-border hover:border-primary focus:ring-primary',
+    danger: 'bg-error text-white hover:bg-error-hover active:bg-error focus:ring-error',
   };
   
   const sizeClasses = {
@@ -47,6 +51,7 @@ export const Button: React.FC<ButtonProps> = ({
         baseClasses,
         variantClasses[variant],
         sizeClasses[size],
+        fullWidth && 'w-full',
         className
       )}
       disabled={disabled || loading}
@@ -58,7 +63,7 @@ export const Button: React.FC<ButtonProps> = ({
           {icon}
         </span>
       )}
-      {children}
+      {loading && loadingText ? loadingText : children}
     </button>
   );
 };
