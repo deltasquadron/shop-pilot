@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { mockOrders } from '@/data/orders';
+import { revalidatePath } from 'next/cache';
+import { orders } from '@/data/orders-storage';
 import type { ApiResponse, Order } from '@/types';
-
-// In-memory storage reference
-let orders = [...mockOrders];
 
 export async function GET(
   request: NextRequest,
@@ -60,6 +58,10 @@ export async function PUT(
     };
     
     orders[orderIndex] = updatedOrder;
+    
+    // Revalidate cache
+    revalidatePath('/api/orders');
+    revalidatePath('/orders');
     
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 300));

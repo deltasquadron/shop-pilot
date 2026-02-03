@@ -9,4 +9,5 @@ export { ErrorMessage } from './common/ErrorMessage';
 export { Pagination } from './common/Pagination';
 export { EmptyState } from './common/EmptyState';
 export { ProtectedRoute } from './auth/ProtectedRoute';
+export { DashboardLayout } from '@/app/dashboard/components/Layout';
 export { cn } from './utils/cn';
