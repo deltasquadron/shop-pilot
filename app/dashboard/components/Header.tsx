@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button, Badge } from '@/components';
 import { Bell, Sun, Moon, Search, Menu } from 'lucide-react';
@@ -13,11 +13,26 @@ interface HeaderProps {
 export function Header({ title, onMenuClick }: HeaderProps) {
   const { user, logout } = useAuth();
   const [notifications] = useState(3);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('darkMode') === 'true';
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (isDarkMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      localStorage.setItem('darkMode', String(isDarkMode));
+    }
+  }, [isDarkMode]);
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
   };
 
   return (

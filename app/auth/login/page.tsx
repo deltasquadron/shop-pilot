@@ -77,7 +77,7 @@ export default function LoginPage() {
         </div>
 
         <Card>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6 p-6">
             {error && (
               <ErrorMessage
                 message={error}

@@ -45,6 +45,26 @@
   }
 }
 
+.dark {
+  /* Dark mode colors */
+  --background: #0f172a;
+  --surface: #1e293b;
+  --surface-hover: #334155;
+  --text: #f1f5f9;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border: #334155;
+  --input-background: #334155;
+  --input-border: #475569;
+  --primary: #60a5fa;
+  --primary-hover: #3b82f6;
+  --primary-active: #2563eb;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error: #f87171;
+}
+
 /* Theme variables for Tailwind v4 */
 @theme inline {
   --color-background: var(--background);
