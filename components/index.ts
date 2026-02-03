@@ -8,4 +8,5 @@ export { LoadingSpinner } from './common/LoadingSpinner';
 export { ErrorMessage } from './common/ErrorMessage';
 export { Pagination } from './common/Pagination';
 export { EmptyState } from './common/EmptyState';
+export { ProtectedRoute } from './auth/ProtectedRoute';
 export { cn } from './utils/cn';
