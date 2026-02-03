@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { mockProducts } from '@/data/products';
+import { revalidatePath } from 'next/cache';
+import { products } from '@/data/products-storage';
 import type { ApiResponse, Product } from '@/types';
-
-// In-memory storage reference
-let products = [...mockProducts];
 
 export async function GET(
   request: NextRequest,
@@ -66,6 +64,10 @@ export async function PUT(
     
     products[productIndex] = updatedProduct;
     
+    // Revalidate cache
+    revalidatePath('/api/products');
+    revalidatePath('/products');
+    
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 300));
     
@@ -104,6 +106,10 @@ export async function DELETE(
   
   // Remove product
   products.splice(productIndex, 1);
+  
+  // Revalidate cache
+  revalidatePath('/api/products');
+  revalidatePath('/products');
   
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 200));

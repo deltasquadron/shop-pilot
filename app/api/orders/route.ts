@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { mockOrders } from '@/data/orders';
+import { revalidatePath } from 'next/cache';
+import { orders } from '@/data/orders-storage';
 import type { ApiResponse, PaginatedResponse, Order, PaginationParams } from '@/types';
-
-// In-memory storage
-let orders = [...mockOrders];
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -50,7 +48,13 @@ export async function GET(request: NextRequest) {
     },
   };
   
-  return NextResponse.json(response);
+  return NextResponse.json(response, {
+    headers: {
+      'Cache-Control': 'no-store, no-cache, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+    },
+  });
 }
 
 export async function POST(request: NextRequest) {
@@ -71,7 +75,11 @@ export async function POST(request: NextRequest) {
     const total = body.items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
     
     // Generate new ID
-    const newId = `ord-${String(orders.length + 1).padStart(3, '0')}`;
+    const maxId = orders.reduce((max, o) => {
+      const num = parseInt(o.id.replace('ord-', ''), 10);
+      return num > max ? num : max;
+    }, 0);
+    const newId = `ord-${String(maxId + 1).padStart(3, '0')}`;
     
     // Create new order
     const newOrder: Order = {
@@ -87,6 +95,10 @@ export async function POST(request: NextRequest) {
     
     // Add to storage
     orders.push(newOrder);
+    
+    // Revalidate cache
+    revalidatePath('/api/orders');
+    revalidatePath('/orders');
     
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 300));

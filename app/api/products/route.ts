@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { mockProducts } from '@/data/products';
+import { revalidatePath } from 'next/cache';
+import { products } from '@/data/products-storage';
 import type { ApiResponse, PaginatedResponse, Product, PaginationParams } from '@/types';
-
-// In-memory storage (simulating database)
-let products = [...mockProducts];
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -55,7 +53,13 @@ export async function GET(request: NextRequest) {
     },
   };
   
-  return NextResponse.json(response);
+  return NextResponse.json(response, {
+    headers: {
+      'Cache-Control': 'no-store, no-cache, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+    },
+  });
 }
 
 export async function POST(request: NextRequest) {
@@ -73,7 +77,11 @@ export async function POST(request: NextRequest) {
     }
     
     // Generate new ID
-    const newId = `prod-${String(products.length + 1).padStart(3, '0')}`;
+    const maxId = products.reduce((max, p) => {
+      const num = parseInt(p.id.replace('prod-', ''), 10);
+      return num > max ? num : max;
+    }, 0);
+    const newId = `prod-${String(maxId + 1).padStart(3, '0')}`;
     
     // Create new product
     const newProduct: Product = {
@@ -90,6 +98,10 @@ export async function POST(request: NextRequest) {
     
     // Add to storage
     products.push(newProduct);
+    
+    // Revalidate cache
+    revalidatePath('/api/products');
+    revalidatePath('/products');
     
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 300));
