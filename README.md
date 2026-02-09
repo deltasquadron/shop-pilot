@@ -2,7 +2,7 @@
 
 A modern, full-featured e-commerce admin dashboard built with Next.js 16, React 19, and TypeScript. Features a clean design system, dark mode support, role-based access control, and responsive layout.
 
-![Dashboard Preview](/dashboard.png)
+![Dashboard Preview](dashboard.png)
 
 ## ✨ Features
 
@@ -42,9 +42,9 @@ A modern, full-featured e-commerce admin dashboard built with Next.js 16, React 
 
 | Light Mode | Dark Mode |
 |------------|-----------|
-| ![Dashboard](/dashboard.png) | ![Dashboard Dark](/dashboard-dark.png) |
-| ![Products](/products.png) | ![Edit Product](/edit-product.png) |
-| ![Login](/login.png) | ![Order Details](/order-details.png) |
+| ![Dashboard](dashboard.png) | ![Dashboard Dark](dashboard-dark.png) |
+| ![Products](products.png) | ![Edit Product](edit-product.png) |
+| ![Login](login.png) | ![Order Details](order-details.png) |
 
 ## 🛠️ Tech Stack
 
